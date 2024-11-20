@@ -1,4 +1,4 @@
-<img src="./movieImg.png" />
+<img src="./movieImg2.png" />
 <a name="readme-top"></a>
 
 <!-- TABLE OF CONTENTS -->
