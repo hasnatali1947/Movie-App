@@ -8,8 +8,8 @@ import { AppContext } from "../../context/themeContext";
 export default function MovieList({ title, hideBtn, data }) {
     const {
         handleSimilarMoviesApi, handleCreditsMoviesApi, handleMovieDetailApi,
-        similarMovieDetails, creditsDetails, trandMovieDetails
-        } = useContext(AppContext);
+        similarMovieDetails, creditsDetails
+    } = useContext(AppContext);
 
     const navigation = useNavigation();
     var { width, height } = Dimensions.get('window')
