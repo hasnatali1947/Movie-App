@@ -28,7 +28,6 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded) {
-    console.log('Font not loaded, returning null');
     return null;
   }
 

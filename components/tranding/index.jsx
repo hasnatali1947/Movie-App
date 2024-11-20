@@ -6,11 +6,8 @@ import { AppContext } from "../../context/themeContext";
 export default function Tranding({ trandingMoviesList, navigation }) {
     const Img500 = path => path ? `https://image.tmdb.org/t/p/w500${path}` : null;
 
-    const { handleSimilarMoviesApi, handleCreditsMoviesApi, handleMovieDetailApi, 
-        similarMovieDetails, creditsDetails, trandMovieDetails} = useContext(AppContext);
-
-    console.log("user :::: ", handleSimilarMoviesApi, handleCreditsMoviesApi, handleMovieDetailApi, 
-    similarMovieDetails, creditsDetails, trandMovieDetails);
+    const { handleSimilarMoviesApi, handleCreditsMoviesApi, handleMovieDetailApi,
+        similarMovieDetails, creditsDetails, trandMovieDetails } = useContext(AppContext);
 
     const handleClick = async (item) => {
         const id = item.id;
@@ -42,9 +39,9 @@ export default function Tranding({ trandingMoviesList, navigation }) {
                 contentContainerStyle={styles.scrollContainer}
             >
                 <View style={styles.imageWrapper}>
-                    {trandingMoviesList?.map((item, index) => (
+                    {trandingMoviesList?.map((item) => (
                         <TouchableOpacity
-                            key={item.id} 
+                            key={item.id}
                             onPress={() => handleClick(item)}
                         >
                             <Image

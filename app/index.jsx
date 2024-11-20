@@ -21,44 +21,24 @@ export default function Main({ navigation }) {
   const [upComingMoviesList, setUpComingMoviesList] = useState(null)
 
 
-  const TrandingMoviesFetch = async () => {
-      try {
-          const response = await axios.get(trandingMovies)
-          setTrandingMoviesList(response.data.results);
-
-      } catch (error) {
-          console.error("error", error);
-          console.log(error);
-      }
-  }
-
-  const TopRatedMoviesFetch = async () => {
-      try {
-          const response = await axios.get(topRatedMovies)
-          setTopRatedMoviesList(response.data.results);
-
-      } catch (error) {
-          console.error("error", error);
-          console.log(error);
-      }
-  }
-
-  const UpcomingMoviesFetch = async () => {
-      try {
-          const response = await axios.get(upcomingMovies)
-          setUpComingMoviesList(response.data.results);
-
-      } catch (error) {
-          console.error("error", error);
-          console.log(error);
-      }
-  }
-
   useEffect(() => {
-      TrandingMoviesFetch()
-      UpcomingMoviesFetch()
-      TopRatedMoviesFetch()
-  }, [])
+    const fetchMovies = async () => {
+      try {
+        const trendingResponse = await axios.get(trandingMovies);
+        setTrandingMoviesList(trendingResponse.data.results);
+
+        const upcomingResponse = await axios.get(upcomingMovies);
+        setUpComingMoviesList(upcomingResponse.data.results);
+
+        const topRatedResponse = await axios.get(topRatedMovies);
+        setTopRatedMoviesList(topRatedResponse.data.results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
   return (
     <View style={styles.Container}>

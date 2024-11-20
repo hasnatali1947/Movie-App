@@ -3,46 +3,64 @@ import { View, StyleSheet, TextInput, Text, SafeAreaView, TouchableOpacity, Imag
 import cross from "./../../assets/icons/cross.png";
 import { useNavigation } from '@react-navigation/native';
 import { debounce } from "lodash"
+import { useContext } from 'react';
+import { AppContext } from "../../context/themeContext";
+
 import axios from 'axios';
 
 export default function Search() {
     const { width } = Dimensions.get('window');
-    const Img342 = path => path ? `https://image.tmdb.org/t/p/w342/${path}` : null
+    const Img342 = (path) => path ? `https://image.tmdb.org/t/p/w342/${path}` : 'https://via.placeholder.com/342x513';
+    
+        const [results, setResults] = useState([]);
+    
+        const API_KEY = 'fd95ce3e47294b0a395cdaa0eadbaefe'
+        const BASE_URL = 'https://api.themoviedb.org/3/search/movie';
+    
+        const handleSearch = async (query) => {
+            if (!query || query.length <= 2) {
+                setResults([]);
+                return;
+            }
+            try {
+                const response = await axios.get(BASE_URL, {
+                    params: {
+                        api_key: API_KEY,
+                        query,
+                        language: "en-US",
+                        page: 1,
+                        include_adult: false,
+                    },
+                });
+                setResults(response.data.results || []);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+    
+        const handleTextDebounce = useCallback(
+            debounce((value) => handleSearch(value), 500),
+            []
+        );
+
     const navigation = useNavigation();
 
-    const movieName = "This is Empire Movie of the Ring";
+    const { handleSimilarMoviesApi, handleCreditsMoviesApi, handleMovieDetailApi,
+        similarMovieDetails, creditsDetails } = useContext(AppContext);
 
-    const [results, setResults] = useState([]);
-
-    const API_KEY = 'fd95ce3e47294b0a395cdaa0eadbaefe'
-    const BASE_URL = 'https://api.themoviedb.org/3/search/movie';
-
-    const handleSearch = async (query) => {
-        if (!query || query.length <= 2) {
-            setResults([]);
-            return;
-        }
-        try {
-            const response = await axios.get(BASE_URL, {
-                params: {
-                    api_key: API_KEY,
-                    query,
-                    language: "en-US",
-                    page: 1,
-                    include_adult: false,
-                },
-            });
-            setResults(response.data.results || []);
-            console.log("results :", results);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
+    const handleClick = async (item) => {
+        const id = item.id;
+        await Promise.all([
+            handleMovieDetailApi(id),
+            handleCreditsMoviesApi(id),
+            handleSimilarMoviesApi(id),
+        ]);
+        navigation.navigate('Movie', {
+            movieDetails: item,
+            creditsDetails,
+            similarMovieDetails,
+        });
     };
-
-    const handleTextDebounce = useCallback(
-        debounce((value) => handleSearch(value), 400),
-        []
-    );
 
     return (
         <SafeAreaView style={styles.SearchContainer}>
@@ -59,15 +77,20 @@ export default function Search() {
                 </TouchableOpacity>
             </View>
             <View style={styles.resultView}>
-                <Text style={styles.resultText}>Results: {results.length}</Text>
-            </View>
+                <Text style={styles.resultText}>Results: {results.length}</Text>                    
+            </View>                                                                               
             <ScrollView>
                 <View style={styles.gridContainer}>
-                    {results.map((item, index) => (
-                        <View key={index} style={styles.gridItem}>
-                            <Image source={{ uri: Img342(item?.poster_path) }} style={styles.movieImage} />
+                    {results?.map((item, index) => (
+                        <TouchableOpacity key={item.id} onPress={() => handleClick(item)} style={styles.searchImagesContainer} >
+
+                        <View style={styles.gridItem}>
+                            <Image source={{
+                                    uri: Img342(item?.poster_path) || 'https://via.placeholder.com/500',
+                                }} style={styles.movieImage} />
                             <Text style={styles.movieName}>{item?.title}</Text>
                         </View>
+                        </TouchableOpacity>
                     ))}
                 </View>
             </ScrollView>
@@ -128,8 +151,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 10,
     },
-    gridItem: {
+    searchImagesContainer:{
         width: '48%',
+        backgroundColor: '#1e1e1e',
+        borderRadius: 10,
+        marginBottom: 10,
+        alignItems: 'center',
+    },
+    gridItem: {
+        width: '100%',
         backgroundColor: '#1e1e1e',
         borderRadius: 10,
         marginBottom: 10,
