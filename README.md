@@ -1,4 +1,4 @@
-<img src="./movieImg2.png" />
+![image](https://github.com/user-attachments/assets/af01de3b-2d38-4283-b10e-52b1b4d9efdb)<img src="./movieImg2.png" />
 <a name="readme-top"></a>
 
 <!-- TABLE OF CONTENTS -->
@@ -58,7 +58,7 @@
 
 - GitHub: [@hasnatali1947](https://github.com/hasnatali1947)
 - Twitter: [@hasnatking1947](https://twitter.com/hasnatking1947)
-- LinkedIn: [Hasnat ali](https://www.linkedin.com/feed/?trk=homepage-basic_google-sign-in-submit)
+- LinkedIn: [Hasnat ali](https://www.linkedin.com/in/hasnattali/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
