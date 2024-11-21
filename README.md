@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/af01de3b-2d38-4283-b10e-52b1b4d9efdb)<img src="./movieImg2.png" />
+<img src="./movieImg2.png" />
 <a name="readme-top"></a>
 
 <!-- TABLE OF CONTENTS -->
